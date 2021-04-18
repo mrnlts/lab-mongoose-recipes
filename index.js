@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 // Import of the model Recipe from './models/Recipe.model.js'
 const Recipe = require('./models/Recipe.model');
 // Import of the data from './data.json'
@@ -20,7 +19,13 @@ mongoose
     return self.connection.dropDatabase();
   })
   .then(() => {
-    // Run your code here, after you have insured that the connection was made
+    Recipe.create(data[0], (err, recipe) => {
+      if (err) {
+        console.log('Error: ', err);
+        return;
+      }
+      console.log('Recipe included succesfully in the database! Title:', recipe.title , 'Details: ', recipe);
+    })
   })
   .catch(error => {
     console.error('Error connecting to the database', error);
