@@ -18,15 +18,24 @@ mongoose
     // Before adding any documents to the database, let's delete all previous entries
     return self.connection.dropDatabase();
   })
+  // .then(() => {
+  //   Recipe.create(data[0], (err, recipe) => {
+  //     if (err) {
+  //       console.log('Error: ', err);
+  //       return;
+  //     }
+  //     console.log('Recipe included succesfully in the database! Title:', recipe.title , 'Details: ', recipe);
+  //   })
+  // })
   .then(() => {
-    Recipe.create(data[0], (err, recipe) => {
-      if (err) {
-        console.log('Error: ', err);
-        return;
-      }
-      console.log('Recipe included succesfully in the database! Title:', recipe.title , 'Details: ', recipe);
+      Recipe.insertMany(data, (err, recipeArr) => {
+        if (err) {
+          console.log('Error: ', err);
+          return;
+        }
+        recipeArr.forEach((recipe)=> console.log('Recipe included! Titles:', recipe.title));
+      })
     })
-  })
   .catch(error => {
     console.error('Error connecting to the database', error);
   });
