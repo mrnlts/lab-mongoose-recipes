@@ -63,14 +63,23 @@ mongoose
   //     })
   //   })
 
-  .catch(error => {
-    console.error('Error connecting to the database', error);
-  });
+.catch(error => {
+  console.error('Error connecting to the database', error);
+});
 
-  Recipe.findOneAndUpdate({ title: "Rigatoni alla Genovese" }, { duration: 100 })
+const rigatoniUpdate = Recipe.findOneAndUpdate({ title: "Rigatoni alla Genovese" }, { duration: 100 })
   .then( console.log( "Updated rigatonis!" ))
   .catch( err => console.log('Rigatoni error! ', err));
 
-  Recipe.deleteOne({ title: "Carrot Cake" })
+const cakeDelete = Recipe.deleteOne({ title: "Carrot Cake" })
   .then( console.log( "Carrot cake deleted!" ) )
   .catch( err => console.log( 'Carrot cake error! ', err ));
+
+Promise.all([ rigatoniUpdate, cakeDelete ])
+  .then(() => {
+    mongoose.connection.close();
+    console.log( 'Closing mongoose' );
+  })
+  .catch( err => console.log( 'Something went wrong closing mongoose: ', err ));
+
+mongoose.connection.on( 'disconnected', () => console.log( 'Mongoose is disconnected' ))
