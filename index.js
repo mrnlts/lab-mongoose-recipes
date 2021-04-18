@@ -71,3 +71,6 @@ mongoose
   .then( console.log( "Updated rigatonis!" ))
   .catch( err => console.log('Rigatoni error! ', err));
 
+  Recipe.deleteOne({ title: "Carrot Cake" })
+  .then( console.log( "Carrot cake deleted!" ) )
+  .catch( err => console.log( 'Carrot cake error! ', err ));
